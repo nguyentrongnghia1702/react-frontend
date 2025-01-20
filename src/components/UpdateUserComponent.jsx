@@ -15,6 +15,7 @@ class UpdateUserComponent extends Component {
             salary: '',
             role: '',
             password: '',
+            session_role: localStorage.getItem('user-role'),
         };
     }
 
@@ -46,15 +47,15 @@ class UpdateUserComponent extends Component {
             role: this.state.role,
         };
 
-        if (this.state.id === '_add') {
-            UserService.createUser(employee).then(() => {
+        
+        UserService.updateUser(employee, this.state.id).then(() => {
+            if (this.state.session_role === 'User') {
+                this.props.history.push(`/view-employee/${this.state.id}`);
+            }else{   
                 this.props.history.push('/employees');
-            });
-        } else {
-            UserService.updateUser(employee, this.state.id).then(() => {
-                this.props.history.push('/employees');
-            });
-        }
+            }
+        });
+        
     };
 
     handleInputChange = (e) => {
@@ -63,7 +64,12 @@ class UpdateUserComponent extends Component {
     };
 
     cancel = () => {
-        this.props.history.push('/employees');
+        console.log(this.state.role);
+        if (this.state.role === 'User') {
+            this.props.history.push(`/view-employee/${this.state.id}`);
+        }else{
+            this.props.history.push('/employees');
+        }
     };
 
     getTitle = () => {

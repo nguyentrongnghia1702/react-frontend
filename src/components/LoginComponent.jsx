@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import UserService from '../services/UserService';
+import { useAuth } from '../App'; // Adjust the path to where `useAuth` is defined.
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -25,9 +26,11 @@ class LoginComponent extends Component {
               console.log("Login response:", res);
               if (res.data.status == "ok" && res.data.role == "Admin"){
                   console.log("Login successful");
+                  localStorage.setItem('user-role', res.data.role);
                   this.props.history.push('/employees');
               }else if (res.data.status == "ok" && res.data.role == "User"){
                 console.log("Login successful");
+                localStorage.setItem('user-role', res.data.role);
                 this.props.history.push(`/view-employee/${res.data.id}`);
               } 
               else{

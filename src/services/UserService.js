@@ -26,5 +26,8 @@ class UserSerivce {
     deleteUser(employeeId){
         return axios.delete(USERR_API_BASE_URL + '/' + employeeId);
     }
+    checkAttendance(employeeId){
+        return axios.post(USERR_API_BASE_URL + '/check-attendance/' + employeeId);
+    }
 }
 export default new UserSerivce()
